@@ -1,5 +1,6 @@
 package com.miva.student_course_management.course;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,7 +17,9 @@ public class CourseService {
     }
 
     public List<Course> findAll() {
-        return courseRepository.findAll();
+        return courseRepository.findAll(
+            Sort.by(Course::getCode).ascending()
+        );
     }
 
     public Course findById(Long id) {

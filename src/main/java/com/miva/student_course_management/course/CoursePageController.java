@@ -1,8 +1,15 @@
 package com.miva.student_course_management.course;
 
+import java.io.IOException;
+
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -10,9 +17,14 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class CoursePageController {
 
     private final CourseService courseService;
+    private final CourseCsvService courseCsvService;
 
-    public CoursePageController(CourseService courseService) {
+    public CoursePageController(
+        CourseService courseService,
+        CourseCsvService courseCsvService
+    ) {
         this.courseService = courseService;
+        this.courseCsvService = courseCsvService;
     }
 
     @GetMapping
@@ -74,5 +86,42 @@ public class CoursePageController {
 
             return "redirect:/courses/new";
         }
+    }
+
+    @GetMapping("/export")
+    public ResponseEntity<ByteArrayResource> exportCourses() throws IOException {
+        byte[] csv = courseCsvService.exportCourses();
+        ByteArrayResource resource = new ByteArrayResource(csv);
+
+        return ResponseEntity.ok()
+            .header(
+                HttpHeaders.CONTENT_DISPOSITION,
+                "attachment; filename=\"courses.csv\""
+            )
+            .contentType(MediaType.parseMediaType("text/csv"))
+            .contentLength(csv.length)
+            .body(resource);
+    }
+
+    @PostMapping("/import")
+    public String importCourses(
+        @RequestParam("file") MultipartFile file,
+        RedirectAttributes redirectAttributes
+    ) {
+        try {
+            int importedCount = courseCsvService.importCourses(file);
+
+            redirectAttributes.addFlashAttribute(
+                "success",
+                importedCount + " courses imported successfully."
+            );
+        } catch (IOException | IllegalArgumentException exception) {
+            redirectAttributes.addFlashAttribute(
+                "error",
+                exception.getMessage()
+            );
+        }
+
+        return "redirect:/courses";
     }
 }

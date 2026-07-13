@@ -17,25 +17,53 @@
 </header>
 
 <main class="container">
+    <div class="file-actions">
+        <a class="button" th:href="@{/courses/export}">
+            Download CSV
+        </a>
+
+        <form
+            method="post"
+            enctype="multipart/form-data"
+            th:action="@{/courses/import}"
+            class="import-form"
+        >
+            <input
+                type="file"
+                name="file"
+                accept=".csv,text/csv"
+                required
+            >
+
+            <button type="submit">Upload CSV</button>
+        </form>
+    </div>
+</main>
+
+<main class="container">
     <div class="page-heading">
         <h2>Available Courses</h2>
+    </div>
+
+    <div class="file-actions">
+        <form method="get" th:action="@{/courses/search}" class="search-form">
+            <label for="code">Course Code</label>
+            <div class="search-row">
+                <input
+                    id="code"
+                    name="code"
+                    type="text"
+                    placeholder="Search for a course code"
+                    style="width: 200px;"
+                >
+                <button type="submit">Search</button>
+            </div>
+        </form>
+
         <a class="button" th:href="@{/courses/new}">
             Add Course
         </a>
     </div>
-
-    <form method="get" th:action="@{/courses/search}" class="search-form">
-        <label for="code">Course Code</label>
-        <div class="search-row">
-            <input
-                id="code"
-                name="code"
-                type="text"
-                placeholder="Search for a course code"
-            >
-            <button type="submit">Search</button>
-        </div>
-    </form>
 
     <p class="success" th:if="${success}" th:text="${success}"></p>
     <p class="error" th:if="${error}" th:text="${error}"></p>

@@ -144,3 +144,20 @@ button,
 .search-row button {
     width: auto;
 }
+
+.file-actions,
+.import-form {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.file-actions {
+    margin-bottom: 20px;
+    justify-content: space-between;
+    align-items: end;
+}
+
+.import-form input {
+    width: auto;
+}

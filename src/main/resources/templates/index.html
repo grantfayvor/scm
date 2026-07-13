@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Course Management</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<header>
+    <h1>Student Course Management</h1>
+
+    <nav>
+        <a th:href="@{/}">Home</a>
+        <a th:href="@{/students}">Students</a>
+        <a th:href="@{/courses}">Courses</a>
+    </nav>
+</header>
+
+<main class="container">
+    <h2>Welcome</h2>
+
+    <div class="cards">
+        <a class="card" th:href="@{/students}">
+            <h3>Manage Students</h3>
+            <p>Create students and register their courses.</p>
+        </a>
+
+        <a class="card" th:href="@{/courses}">
+            <h3>Manage Courses</h3>
+            <p>Create and view available courses.</p>
+        </a>
+    </div>
+</main>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Students</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<header>
+    <h1>Students</h1>
+
+    <nav>
+        <a th:href="@{/}">Home</a>
+        <a th:href="@{/students}">Students</a>
+        <a th:href="@{/courses}">Courses</a>
+    </nav>
+</header>
+
+<main class="container">
+    <div class="page-heading">
+        <h2>All Students</h2>
+        <a class="button" th:href="@{/students/new}">
+            Add Student
+        </a>
+    </div>
+
+    <p class="success" th:if="${success}" th:text="${success}"></p>
+    <p class="error" th:if="${error}" th:text="${error}"></p>
+
+    <p th:if="${#lists.isEmpty(students)}">
+        No students have been added.
+    </p>
+
+    <table th:unless="${#lists.isEmpty(students)}">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Matric Number</th>
+            <th>Name</th>
+            <th>Courses</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="student : ${students}">
+            <td th:text="${student.id}"></td>
+            <td th:text="${student.matricNumber}"></td>
+            <td th:text="${student.name}"></td>
+            <td>
+                <a th:href="@{/students/{id}/courses(id=${student.id})}">
+                    Manage courses
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+</body>
+</html>

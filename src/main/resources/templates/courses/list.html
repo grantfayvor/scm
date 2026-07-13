@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Courses</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<header>
+    <h1>Courses</h1>
+
+    <nav>
+        <a th:href="@{/}">Home</a>
+        <a th:href="@{/students}">Students</a>
+        <a th:href="@{/courses}">Courses</a>
+    </nav>
+</header>
+
+<main class="container">
+    <div class="page-heading">
+        <h2>Available Courses</h2>
+        <a class="button" th:href="@{/courses/new}">
+            Add Course
+        </a>
+    </div>
+
+    <p class="success" th:if="${success}" th:text="${success}"></p>
+    <p class="error" th:if="${error}" th:text="${error}"></p>
+
+    <p th:if="${#lists.isEmpty(courses)}">
+        No courses have been added.
+    </p>
+
+    <table th:unless="${#lists.isEmpty(courses)}">
+        <thead>
+        <tr>
+            <th>Code</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Credit Units</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="course : ${courses}">
+            <td th:text="${course.code}"></td>
+            <td th:text="${course.name}"></td>
+            <td th:text="${course.description ?: '-'}"></td>
+            <td th:text="${course.creditUnits}"></td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+</body>
+</html>

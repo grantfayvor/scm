@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Register Courses</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<header>
+    <h1>Course Registration</h1>
+
+    <nav>
+        <a th:href="@{/}">Home</a>
+        <a th:href="@{/students}">Students</a>
+        <a th:href="@{/courses}">Courses</a>
+    </nav>
+</header>
+
+<main class="container">
+    <h2 th:text="${student.name}"></h2>
+
+    <p>
+        Matric number:
+        <strong th:text="${student.matricNumber}"></strong>
+    </p>
+
+    <p class="success" th:if="${success}" th:text="${success}"></p>
+    <p class="error" th:if="${error}" th:text="${error}"></p>
+
+    <section>
+        <h3>Register Courses</h3>
+
+        <form
+            method="post"
+            th:action="@{/students/{id}/courses(id=${student.id})}"
+        >
+            <div
+                class="checkbox-row"
+                th:each="course : ${courses}"
+            >
+                <input
+                    type="checkbox"
+                    name="courseIds"
+                    th:id="'course-' + ${course.id}"
+                    th:value="${course.id}"
+                >
+
+                <label
+                    th:for="'course-' + ${course.id}"
+                >
+                    <span th:text="${course.code}"></span>
+                    -
+                    <span th:text="${course.name}"></span>
+                    (<span th:text="${course.creditUnits}"></span> units)
+                </label>
+            </div>
+
+            <button type="submit">Register Selected Courses</button>
+        </form>
+    </section>
+
+    <section>
+        <h3>Registered Courses</h3>
+
+        <p th:if="${#lists.isEmpty(registration.courses)}">
+            No courses registered.
+        </p>
+
+        <table th:unless="${#lists.isEmpty(registration.courses)}">
+            <thead>
+            <tr>
+                <th>Code</th>
+                <th>Name</th>
+                <th>Credit Units</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr th:each="course : ${registration.courses}">
+                <td th:text="${course.code}"></td>
+                <td th:text="${course.name}"></td>
+                <td th:text="${course.creditUnits}"></td>
+                <td>
+                    <form
+                        method="post"
+                        th:action="@{/students/{studentId}/courses/{courseId}/delete(
+                            studentId=${student.id},
+                            courseId=${course.id}
+                        )}"
+                    >
+                        <button class="danger" type="submit">
+                            Remove
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <p class="total">
+            Total registered credit units:
+            <strong th:text="${registration.totalCreditUnits}"></strong>
+        </p>
+    </section>
+</main>
+</body>
+</html>

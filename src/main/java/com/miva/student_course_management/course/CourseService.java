@@ -22,6 +22,13 @@ public class CourseService {
         );
     }
 
+    public List<Course> findAllExcept(List<Long> ids) {
+        return courseRepository.findAllByIdNotIn(
+            ids,
+            Sort.by(Course::getCode).ascending()
+        );
+    }
+
     public Course findById(Long id) {
         return courseRepository.findById(id)
             .orElseThrow(() -> new CourseNotFoundException(id));
@@ -38,9 +45,9 @@ public class CourseService {
         }
 
         Course course = new Course(
-            code,
             request.name().trim(),
             trimToNull(request.description()),
+            code,
             request.creditUnits()
         );
 

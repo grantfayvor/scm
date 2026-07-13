@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Student</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<header>
+    <h1>Add Student</h1>
+
+    <nav>
+        <a th:href="@{/}">Home</a>
+        <a th:href="@{/students}">Students</a>
+        <a th:href="@{/courses}">Courses</a>
+    </nav>
+</header>
+
+<main class="container">
+    <p class="error" th:if="${error}" th:text="${error}"></p>
+
+    <form method="post" th:action="@{/students}">
+        <label for="matricNumber">Matric Number</label>
+        <input
+            id="matricNumber"
+            name="matricNumber"
+            type="text"
+            required
+        >
+
+        <label for="name">Student Name</label>
+        <input
+            id="name"
+            name="name"
+            type="text"
+            required
+        >
+
+        <div class="form-actions">
+            <button type="submit">Save Student</button>
+            <a th:href="@{/students}">Cancel</a>
+        </div>
+    </form>
+</main>
+</body>
+</html>

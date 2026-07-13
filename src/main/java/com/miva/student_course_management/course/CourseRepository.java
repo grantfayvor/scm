@@ -13,4 +13,6 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
     boolean existsByCodeIgnoreCase(String code);
 
     List<Course> findAllByIdNotIn(List<Long> ids, Sort sort);
+
+    List<Course> findByCodeContainingIgnoreCase(String code, Sort sort);
 }

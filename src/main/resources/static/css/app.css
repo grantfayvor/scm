@@ -130,3 +130,17 @@ button,
     margin-top: 20px;
     font-size: 18px;
 }
+
+.search-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.search-row input {
+    width: 50%;
+}
+
+.search-row button {
+    width: auto;
+}

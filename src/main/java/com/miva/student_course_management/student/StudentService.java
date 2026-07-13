@@ -59,6 +59,11 @@ public class StudentService {
             .orElseThrow(() -> new StudentNotFoundException(id));
     }
 
+    public Student findByMatricNumber(String matricNumber) {
+        return studentRepository.findByMatricNumberIgnoreCase(matricNumber)
+            .orElseThrow(() -> new StudentNotFoundException(matricNumber));
+    }
+
     @Transactional
     public RegistrationResponse registerCourses(
         Long studentId,

@@ -34,6 +34,13 @@ public class CourseService {
             .orElseThrow(() -> new CourseNotFoundException(id));
     }
 
+    public List<Course> searchByCode(String code) {
+        return courseRepository.findByCodeContainingIgnoreCase(
+            normalizeCode(code),
+            Sort.by(Course::getCode).ascending()
+        );
+    }
+
     @Transactional
     public Course create(CourseRequest request) {
         String code = normalizeCode(request.code());

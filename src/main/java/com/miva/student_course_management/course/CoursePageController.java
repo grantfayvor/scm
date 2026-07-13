@@ -21,6 +21,22 @@ public class CoursePageController {
         return "courses/list";
     }
 
+    @GetMapping("/search")
+    public String searchCourseByCode(
+        @RequestParam(required = false) String code,
+        Model model
+    ) {
+        if (code == null || code.trim().isEmpty()) {
+            return listCourses(model);
+        }
+
+        model.addAttribute(
+            "courses",
+            courseService.searchByCode(code.trim())
+        );
+        return "courses/list";
+    }
+
     @GetMapping("/new")
     public String newCourseForm() {
         return "courses/new";

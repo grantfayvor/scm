@@ -24,6 +24,19 @@
         </a>
     </div>
 
+    <form method="get" th:action="@{/courses/search}" class="search-form">
+        <label for="code">Course Code</label>
+        <div class="search-row">
+            <input
+                id="code"
+                name="code"
+                type="text"
+                placeholder="Search for a course code"
+            >
+            <button type="submit">Search</button>
+        </div>
+    </form>
+
     <p class="success" th:if="${success}" th:text="${success}"></p>
     <p class="error" th:if="${error}" th:text="${error}"></p>
 

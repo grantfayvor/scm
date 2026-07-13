@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -30,6 +31,32 @@ public class StudentPageController {
     @GetMapping
     public String listStudents(Model model) {
         model.addAttribute("students", studentService.findAll());
+        return "students/list";
+    }
+
+    @GetMapping("/search")
+    public String searchStudentById(
+        @RequestParam(required = false) String matricNumber,
+        Model model
+    ) {
+        if (matricNumber == null || matricNumber.trim().isEmpty()) {
+            return listStudents(model);
+        }
+
+        List<Student> students = new ArrayList<>();
+        try {
+            Student student = studentService.findByMatricNumber(matricNumber.trim());
+            if (student != null) {
+                students.add(student);
+            }
+        } catch (StudentNotFoundException e) {
+            model.addAttribute(
+                "error",
+                e.getMessage()
+            );
+        }
+        model.addAttribute("students", students);
+
         return "students/list";
     }
 

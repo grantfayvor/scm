@@ -24,6 +24,19 @@
         </a>
     </div>
 
+    <form method="get" th:action="@{/students/search}" class="search-form">
+        <label for="matricNumber">Student Matric Number</label>
+        <div class="search-row">
+            <input
+                id="matricNumber"
+                name="matricNumber"
+                type="text"
+                placeholder="Enter matric number"
+            >
+            <button type="submit">Search</button>
+        </div>
+    </form>
+
     <p class="success" th:if="${success}" th:text="${success}"></p>
     <p class="error" th:if="${error}" th:text="${error}"></p>
 

@@ -106,9 +106,7 @@ public class StudentService {
             .map(CourseRegistration::getCourse)
             .toList();
 
-        int totalCreditUnits = courses.stream()
-            .mapToInt(Course::getCreditUnits)
-            .sum();
+        int totalCreditUnits = calculateTotalCreditUnitsRecursive(courses, 0);
 
         List<RegistrationResponse.RegisteredCourse> registeredCourses =
             courses.stream()
@@ -127,6 +125,14 @@ public class StudentService {
             registeredCourses,
             totalCreditUnits
         );
+    }
+
+    private int calculateTotalCreditUnitsRecursive(List<Course> courses, int index) {
+        if (index >= courses.size()) {
+            return 0;
+        }
+        return courses.get(index).getCreditUnits()
+            + calculateTotalCreditUnitsRecursive(courses, index + 1);
     }
 
     @Transactional

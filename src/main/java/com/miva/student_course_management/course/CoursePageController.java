@@ -1,6 +1,7 @@
 package com.miva.student_course_management.course;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
@@ -29,7 +30,13 @@ public class CoursePageController {
 
     @GetMapping
     public String listCourses(Model model) {
-        model.addAttribute("courses", courseService.findAll());
+        List<Course> courses = courseService.findAll();
+        model.addAttribute("courses", courses);
+
+        int totalCreditUnits = courses.stream()
+            .mapToInt(Course::getCreditUnits)
+            .sum();
+        model.addAttribute("totalCreditUnits", totalCreditUnits);
         return "courses/list";
     }
 

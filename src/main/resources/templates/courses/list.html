@@ -89,6 +89,12 @@
             <td th:text="${course.description ?: '-'}"></td>
             <td th:text="${course.creditUnits}"></td>
         </tr>
+        <tr class="table-total">
+            <td></td>
+            <td></td>
+            <td><strong class="total">Total course credit units:</strong></td>
+            <td><strong class="total" th:text="${totalCreditUnits}"></strong></td>
+        </tr>
         </tbody>
     </table>
 </main>
